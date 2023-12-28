@@ -1,8 +1,23 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./App.css";
 const App = () => {
   const [todos, setTodos] = useState([]);
   const [todoEditing, setTodoEditing] = useState(null);
+
+  useEffect(() => {
+    const json = localStorage.getItem("todos");
+    const loadedTodos = JSON.parse(json);
+    if (loadedTodos) {
+      setTodos(loadedTodos);
+    }
+  }, []);
+
+useEffect(() => {
+    if(todos.length > 0) {
+        const json = JSON.stringify(todos);
+        localStorage.setItem("todos", json);
+    }
+  }, [todos]);
   // Add the handlesubmit code here
   function handlesubmit(event) {
     event.preventDefault();
@@ -56,7 +71,7 @@ const App = () => {
       <h1>Todo List</h1>
 
       <form onSubmit={handlesubmit}>
-        <input type="text" id="todoAdd" />
+        <input type="text" id="todoAdd" autoComplete="off"/>
 
         <button type="submit">Add Todo</button>
       </form>
