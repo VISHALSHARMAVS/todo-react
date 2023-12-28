@@ -4,7 +4,21 @@ const App = () => {
   const [todos, setTodos] = useState([]);
   
   // Add the handlesubmit code here
-  
+  function handlesubmit(event){
+    event.preventDefault();
+    let todo = document.getElementById("todoAdd").value;
+    const newTodo ={
+      id:new Date().getTime(),
+      text: todo.trim(),
+      completed:false,
+    };
+    if(newTodo.text.length >0){
+      setTodos([...todos].concat(newTodo));
+    }else{
+      alert("Enter Valid Task");
+    }
+document.getElementById("todoAdd").value ="";
+  }
   
   // Add the deleteToDo code here
 
@@ -18,10 +32,24 @@ const App = () => {
 return(
 <div className ="App">
 <h1>Todo List</h1>
-<form>
-<input type ="text" align ="right" id= 'todoAdd'/>
+
+<form onSubmit={handlesubmit}>
+
+<input 
+type ="text" 
+align ="right" 
+id= 'todoAdd'/>
+
 <button type ="submit">Add Todo</button>
 </form>
+
+{todos.map((todo)=>
+<div className="todo" key ={todo.id}>
+  <div className="todo-text">{todo.text}</div> 
+
+</div>
+)}
+
 </div>
 );
 };
